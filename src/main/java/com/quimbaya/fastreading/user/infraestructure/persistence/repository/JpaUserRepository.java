@@ -1,11 +1,11 @@
-package com.quimbaya.fastreading.user.infraestructure.persistance.repository;
+package com.quimbaya.fastreading.user.infraestructure.persistence.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.quimbaya.fastreading.user.infraestructure.persistance.entity.UserEntity;
+import com.quimbaya.fastreading.user.infraestructure.persistence.entity.UserEntity;
 
 @Repository
 public interface JpaUserRepository extends JpaRepository<UserEntity,Long> {

@@ -1,4 +1,4 @@
-package com.quimbaya.fastreading.user.infraestructure.persistance.repository;
+package com.quimbaya.fastreading.user.infraestructure.persistence.repository;
 
 
 import java.sql.Date;
@@ -11,13 +11,15 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.quimbaya.fastreading.ciudad.infraestructure.persistence.entity.CiudadEntity;
+import com.quimbaya.fastreading.ciudad.infraestructure.persistence.repository.JpaCiudadRepository;
 import com.quimbaya.fastreading.role.infrastructure.persistence.entity.RoleEntity;
 import com.quimbaya.fastreading.role.infrastructure.persistence.repository.JpaRoleRepository;
 import com.quimbaya.fastreading.user.domain.exception.InvalidCredentialsException;
 import com.quimbaya.fastreading.user.domain.model.LoginUser;
 import com.quimbaya.fastreading.user.domain.model.Users;
 import com.quimbaya.fastreading.user.domain.port.out.UserRepositoryPort;
-import com.quimbaya.fastreading.user.infraestructure.persistance.entity.UserEntity;
+import com.quimbaya.fastreading.user.infraestructure.persistence.entity.UserEntity;
 
 @Component
 public class JpaUserRepositoryAdapter implements UserRepositoryPort {
@@ -26,9 +28,8 @@ public class JpaUserRepositoryAdapter implements UserRepositoryPort {
 	private JpaUserRepository jpaUserRepository;
 	@Autowired
 	private JpaRoleRepository jpaRoleRepository;
-	
-
-	
+	@Autowired
+	private JpaCiudadRepository jpaCiudadRepository;
 
 	public JpaUserRepositoryAdapter(JpaUserRepository jpaUserRepository, JpaRoleRepository jpaRoleRepository) {
 		this.jpaUserRepository = jpaUserRepository;
@@ -82,14 +83,17 @@ public class JpaUserRepositoryAdapter implements UserRepositoryPort {
 	
 	private UserEntity toEntity(Users user) {
 	    Optional<RoleEntity> optionalRoleEntity = jpaRoleRepository.findById(user.getUserRolId());
+	    Optional<CiudadEntity> optionalCiudadEntity=jpaCiudadRepository.findById(user.getCiudadId());
 	    if (!optionalRoleEntity.isPresent()) {
 	        throw new IllegalArgumentException("No Role found with ID: " + user.getUserRolId());
-	    }
-	    
+	    }	    
 	   
+	    if(!optionalCiudadEntity.isPresent()) {
+	    	throw new IllegalArgumentException("No Ciudad found with ID: " + user.getCiudadId());
+	    }
 
 	    RoleEntity userRoleEntity = optionalRoleEntity.get();
-	    
+	    CiudadEntity ciudadEntity=optionalCiudadEntity.get();
 
 	    return new UserEntity(
 	        user.getUserId(),
@@ -103,7 +107,8 @@ public class JpaUserRepositoryAdapter implements UserRepositoryPort {
 	        user.getDateDelete() != null ? LocalDateTime.ofInstant(user.getDateDelete().toInstant(), ZoneId.systemDefault()) : null,
 	        user.getState(),
 	        user.getFirst(),
-	        user.getRecoveryPass()
+	        user.getRecoveryPass(),
+	        ciudadEntity
 	        
 	    );
 	}
@@ -124,7 +129,8 @@ public class JpaUserRepositoryAdapter implements UserRepositoryPort {
 	        entity.getDateDelete() != null ? Date.from(entity.getDateDelete().atZone(ZoneId.systemDefault()).toInstant()) : null,
 	        entity.getState(),
 	        entity.getFirst(),
-	        entity.getRecoveryPass()
+	        entity.getRecoveryPass(),
+	        entity.getUserCiudad().getCiudadId()
 	       
 	    );
 	}

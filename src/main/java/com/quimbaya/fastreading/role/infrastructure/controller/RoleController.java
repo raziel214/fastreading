@@ -19,7 +19,7 @@ import com.quimbaya.fastreading.role.domain.exception.RoleNotFoundException;
 import com.quimbaya.fastreading.role.domain.model.Role;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/api/roles")
 public class RoleController {
 
     @Autowired

@@ -11,7 +11,7 @@ import com.quimbaya.fastreading.user.aplication.usescases.FindUserCaseByIdImpl;
 import com.quimbaya.fastreading.user.aplication.usescases.UpdateUserCaseImpl;
 import com.quimbaya.fastreading.user.aplication.usescases.LoginRequestUseCaseImpl;
 import com.quimbaya.fastreading.user.domain.port.out.UserRepositoryPort;
-import com.quimbaya.fastreading.user.infraestructure.persistance.repository.JpaUserRepositoryAdapter;
+import com.quimbaya.fastreading.user.infraestructure.persistence.repository.JpaUserRepositoryAdapter;
 
 @Configuration
 public class UserConfig {

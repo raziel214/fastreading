@@ -26,5 +26,6 @@ public class Users{
     private Short   state;  // Usamos Short dado que mencionaste "smallint".
     private Short   first;   // De igual manera, usamos Short para "smallint".
     private Integer recoveryPass;
+    private Long 	 ciudadId;
    
 }

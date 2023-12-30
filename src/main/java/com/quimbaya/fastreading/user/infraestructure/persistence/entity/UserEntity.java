@@ -1,7 +1,7 @@
-package com.quimbaya.fastreading.user.infraestructure.persistance.entity;
+package com.quimbaya.fastreading.user.infraestructure.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.quimbaya.fastreading.ciudad.infraestructure.persistence.entity.CiudadEntity;
 import com.quimbaya.fastreading.role.infrastructure.persistence.entity.RoleEntity;
 
 
@@ -67,7 +67,8 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer recoveryPass;
     
-
-    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ciudad_id")
+    private CiudadEntity  userCiudad;
 
 }
